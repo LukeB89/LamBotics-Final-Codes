@@ -64,19 +64,29 @@ def run (self):
         x = 0
         color = (0,0,0)
         # you can use: output, getInputs, message
+        ## Gets message inputs from color detection
+        ## And face detection threads
         ColrDTC = self.getInputs().colourDTC
         HeadP = self.getInputs().facePos
         FaceD = self.getInputs().faceDet
-##        self.message(ColrDTC.Working)
+        ## Ensures only Color detect module or face
+        ## Detect module has control of sending serial commands at any one time.
         if(ColrDTC.Working == True):
+            ## Uses Send Message controls to send RGB values 
+            ## To that of the NeoPixle Code upon the Arduino 
             sendMSG(ColrDTC.R, ColrDTC.G, ColrDTC.B)
+            ## Comment in for testing
+##          self.message(x)
         elif(FaceD.Face == True):
+            ## First converts x, y and z values to range of 
+            ## 0 - 255 then sends as RGB values to arduino
+            ## To display on NeoPixles
             color = facePosScale(HeadP.x,HeadP.y,HeadP.z)
             
             x = sendMSG(color[0], color[1], color[2])
 ##            x = sendMSG(1, 1, 1)
+            ## Comment in for testing
+##          self.message(x)
 
-            self.message(x)
-
-        # if you want to limit framerate, put it at the end
+       
         time.sleep(0.1)
