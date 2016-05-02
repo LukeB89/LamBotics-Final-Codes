@@ -13,7 +13,7 @@ ser = serial.Serial("/dev/ttyUSB0",57600)
 time.sleep(3)
 
 # put your imports here
-
+## Obtains the name of the closest color based on RGB values 
 def closest_colour(requested_colour):
     min_colours = {}
     for key, name in webcolors.css3_hex_to_names.items():
@@ -25,8 +25,11 @@ def closest_colour(requested_colour):
     return min_colours[min(min_colours.keys())]
 
 def sendMSG(Red,Gre,Blu):
+    ## creats array of the RGB values
     requested_colour = (Red, Gre, Blu)
+    ## Sends array to obtain the closest Web Colour Name
     closest_name = closest_colour(requested_colour)
+    ## Converts Colour Name to Hex
     Hex = webcolors.name_to_hex(closest_name).encode('ascii','ignore')
     # Used in testing
 ##  HexV = ColrDTC.Hex
@@ -42,6 +45,10 @@ def sendMSG(Red,Gre,Blu):
     time.sleep(1)
     return inpu
 
+## Alters the scale of the x, y and z values
+## To make them in the range of 0 -255
+## To mimic the RGB values to send to the 
+## Arduino
 def facePosScale(a,b,c):    
     reX = int(round((a*2.125)))
     reY = int(round((b*2.742)))
