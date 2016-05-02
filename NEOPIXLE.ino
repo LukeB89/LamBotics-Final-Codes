@@ -17,7 +17,9 @@ char incomingByte[11];   // for incoming serial data
 
 void setup() 
 { 
+      // starts the serial connection and sets baud rate
       Serial.begin(57600);
+      // sets up the NeoPixle code
       FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
       
     
@@ -25,33 +27,40 @@ void setup()
 
 void loop() 
 { 
+// checks for incomming on the serial port
 if (Serial.available() > 0) 
 {
   inc = 0;
   // read the incoming byte:
   Serial.readBytes(incomingByte,11);
+  // stores the first part of the incoming data up to the seporator
+  // denoted by ":"
   char* command = strtok(incomingByte, ":");
   while (command != 0)
   {
+    //stores the command into color
     color = command;//atoi(command);
+    // seraches for the next ":" and exits loop when not found
     command = strtok(0,":");
 
   }
   
 
   
-  // say what you got:
+  // displays the result:
   Serial.print("R: ");
   Serial.println(color);
 }
-//Serial.readBytes(11
+// Sets brightness on LED's
 FastLED.setBrightness(255);
 
+// Starts loop from 0 to 15 (16 LED's)
 for (int x = 0; x < NUM_LEDS; x++)
 {
+  // Applies HEX to each LED in the sequence
   leds[x] = strtoul(color, NULL, 16);
 }
-
+// in forms LED's to display color. 
 FastLED.show();    
 }
   
